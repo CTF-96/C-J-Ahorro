@@ -3,156 +3,256 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Ahorro</title>
-<meta name="theme-color" content="#16202E">
+<title>Ahorro C&amp;J</title>
+
+<!-- App instalable -->
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#0E9494">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<link rel="icon" href="./favicon-64.png" type="image/png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Ahorro C&amp;J">
+<meta name="mobile-web-app-capable" content="yes">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --tinta:#16202E; --tinta-60:#5B6B80; --tinta-30:#9BA9BA;
-  --papel:#EDF0F5; --papel-2:#FFFFFF; --linea:#D7DEE8;
-  --oro:#C98A16; --rojo:#D8456C;
-  --radio:16px; --sombra:0 1px 2px rgba(22,32,46,.06), 0 8px 24px rgba(22,32,46,.07);
+  --coral:#0E9494;        /* verde azulado principal */
+  --durazno:#3FBFA8;      /* verde menta */
+  --lila:#5660D6;         /* añil */
+  --menta:#34D3B5;
+  --dorado:#F0A92B;       /* acento cálido */
+  --tinta:#1F3A5C;
+  --tinta-60:#69809B;
+  --tinta-30:#A6B8C9;
+  --papel:#FFFFFF;
+  --linea:#E1EBF0;
+  --radio:22px;
+  --sombra:0 2px 4px rgba(31,58,92,.05), 0 10px 30px rgba(31,58,92,.10);
+  --sombra-alta:0 14px 34px rgba(31,58,92,.20);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
 body{
-  background:var(--papel);color:var(--tinta);
-  font-family:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
-  font-size:15px;line-height:1.5;padding:0 0 60px;-webkit-font-smoothing:antialiased;
+  min-height:100vh;
+  background:linear-gradient(165deg,#EEF7F7 0%,#F0F5FB 48%,#F1F0FC 100%);
+  background-attachment:fixed;
+  color:var(--tinta);
+  font-family:'Nunito',system-ui,-apple-system,sans-serif;
+  font-size:15.5px;line-height:1.55;font-weight:600;
+  padding:0 0 70px;-webkit-font-smoothing:antialiased;
 }
-.wrap{max-width:900px;margin:0 auto;padding:0 14px}
-.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.wrap{max-width:900px;margin:0 auto;padding:0 15px}
+.num{font-variant-numeric:tabular-nums}
 .oculto{display:none!important}
 
 /* ─── Cabecera ─── */
-header{background:var(--tinta);color:#fff;padding:20px 0;border-bottom:4px solid var(--oro);margin-bottom:20px}
-.head-in{display:flex;align-items:center;gap:14px}
-h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(23px,5.6vw,34px);line-height:1;margin:0;letter-spacing:-.02em}
-.sub{color:#A8B6C8;font-size:12.5px;margin-top:6px}
-.volver{border:0;background:rgba(255,255,255,.12);color:#fff;border-radius:10px;width:40px;height:40px;font-size:20px;cursor:pointer;flex:none;display:flex;align-items:center;justify-content:center;transition:background .15s}
-.volver:hover{background:rgba(255,255,255,.22)}
-.estado-sync{margin-left:auto;font-size:11.5px;color:#8FA0B4;display:flex;align-items:center;gap:6px;flex:none}
-.punto{width:8px;height:8px;border-radius:50%;background:#4A5A70;flex:none}
-.punto.ok{background:#43C07C} .punto.err{background:#E4718F} .punto.load{background:var(--oro);animation:lat 1s infinite}
-@keyframes lat{50%{opacity:.25}}
+header{
+  background:linear-gradient(115deg,#0E9494 0%,#2A8FC4 48%,var(--lila) 100%);
+  color:#fff;padding:22px 0 24px;margin-bottom:22px;
+  border-radius:0 0 30px 30px;box-shadow:0 8px 26px rgba(40,110,160,.30);
+  position:relative;overflow:hidden;
+}
+header::after{
+  content:"";position:absolute;right:-40px;top:-60px;width:190px;height:190px;
+  background:rgba(255,255,255,.13);border-radius:50%;
+}
+.head-in{display:flex;align-items:center;gap:13px;position:relative;z-index:1}
+h1{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(24px,6vw,34px);line-height:1.05;margin:0;letter-spacing:-.01em}
+.sub{color:rgba(255,255,255,.86);font-size:13px;margin-top:4px;font-weight:600}
+.volver{
+  border:0;background:rgba(255,255,255,.22);color:#fff;border-radius:14px;
+  width:42px;height:42px;font-size:21px;cursor:pointer;flex:none;
+  display:flex;align-items:center;justify-content:center;transition:transform .15s,background .15s;
+}
+.volver:hover{background:rgba(255,255,255,.34)} .volver:active{transform:scale(.92)}
+.estado-sync{margin-left:auto;font-size:11.5px;color:rgba(255,255,255,.85);display:flex;align-items:center;gap:6px;flex:none;font-weight:700}
+.punto{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.5);flex:none}
+.punto.ok{background:#8DF5C9;box-shadow:0 0 0 3px rgba(141,245,201,.28)}
+.punto.err{background:#FFD166}
+.punto.load{background:#fff;animation:lat 1s infinite}
+@keyframes lat{50%{opacity:.3}}
 
 /* ─── Totales ─── */
-.fila-totales{display:flex;justify-content:flex-end;margin-bottom:12px}
+.fila-totales{display:flex;justify-content:flex-end;margin-bottom:14px}
 .link-totales{
-  background:none;border:0;padding:4px 2px;cursor:pointer;
-  font:600 14px 'DM Sans',sans-serif;color:var(--tinta-60);
-  text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1.5px;
-  display:flex;align-items:center;gap:7px;transition:color .15s;
+  background:rgba(255,255,255,.75);border:1.5px solid var(--linea);border-radius:999px;
+  padding:8px 17px;cursor:pointer;font:700 14px 'Nunito',sans-serif;color:var(--tinta-60);
+  display:flex;align-items:center;gap:8px;transition:all .18s;box-shadow:var(--sombra);
 }
-.link-totales:hover{color:var(--tinta)}
-.link-totales:focus-visible{outline:3px solid var(--oro);outline-offset:3px;border-radius:4px}
-.link-totales .caret{font-size:11px;transition:transform .2s;display:inline-block}
+.link-totales:hover{color:var(--coral);border-color:#B9DFE0}
+.link-totales:active{transform:scale(.96)}
+.link-totales:focus-visible{outline:3px solid var(--dorado);outline-offset:3px}
+.link-totales .caret{font-size:10px;transition:transform .25s;display:inline-block}
+.link-totales.abierto{color:var(--coral);border-color:#B9DFE0;background:#fff}
 .link-totales.abierto .caret{transform:rotate(180deg)}
 
-.reparto{background:var(--papel-2);border-radius:var(--radio);box-shadow:var(--sombra);padding:22px;margin-bottom:16px}
+.reparto{
+  background:var(--papel);border-radius:var(--radio);box-shadow:var(--sombra);
+  padding:24px;margin-bottom:18px;animation:aparece .3s cubic-bezier(.2,.9,.3,1);
+}
+@keyframes aparece{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 .reparto-top{display:flex;gap:26px;align-items:center;flex-wrap:wrap}
-.dona{flex:none;width:150px;height:150px;position:relative}
+.dona{flex:none;width:156px;height:156px;position:relative}
 .dona svg{transform:rotate(-90deg);display:block}
 .dona .centro{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none}
-.dona .centro .c-num{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:20px;line-height:1.05}
-.dona .centro .c-lbl{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tinta-60);margin-top:3px}
+.dona .centro .c-num{font-family:'Fredoka',sans-serif;font-weight:700;font-size:21px;line-height:1.05}
+.dona .centro .c-lbl{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--tinta-30);margin-top:4px;font-weight:800}
 .leyenda{flex:1;min-width:200px}
-.leyenda h2{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;margin:0 0 4px;font-weight:600}
-.leyenda .nota{font-size:12.5px;color:var(--tinta-60);margin:0 0 14px}
+.leyenda h2{font-family:'Fredoka',sans-serif;font-size:18px;margin:0 0 3px;font-weight:600}
+.leyenda .nota{font-size:13px;color:var(--tinta-60);margin:0 0 14px;font-weight:600}
 .leyenda ul{list-style:none;margin:0;padding:0}
-.leyenda li{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--linea);font-size:14px}
+.leyenda li{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1.5px dashed var(--linea);font-size:14.5px}
 .leyenda li:last-child{border-bottom:0}
-.pastilla{width:11px;height:11px;border-radius:3px;flex:none}
-.leyenda li .nom{flex:1;display:flex;flex-direction:column;line-height:1.25}
-.leyenda li .det{font-size:11.5px;color:var(--tinta-30)}
-.leyenda li .val{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;font-weight:600}
-.leyenda li .pc{color:var(--tinta-60);font-size:12.5px;min-width:40px;text-align:right}
-.reparto-pie{margin-top:18px;padding-top:16px;border-top:1px solid var(--linea);display:flex;gap:10px;flex-wrap:wrap}
+.pastilla{width:13px;height:13px;border-radius:5px;flex:none}
+.leyenda li .nom{flex:1;display:flex;flex-direction:column;line-height:1.3}
+.leyenda li .det{font-size:11.5px;color:var(--tinta-30);font-weight:600}
+.leyenda li .val{font-weight:800}
+.leyenda li .pc{color:var(--tinta-30);font-size:12.5px;min-width:40px;text-align:right;font-weight:700}
+.reparto-pie{margin-top:20px;padding-top:18px;border-top:1.5px dashed var(--linea);display:flex;gap:10px;flex-wrap:wrap}
 .btn-sec{
-  border:1.5px solid var(--linea);background:transparent;border-radius:10px;padding:10px 16px;
-  font:600 13.5px 'DM Sans',sans-serif;color:var(--tinta);cursor:pointer;transition:all .15s;
+  border:0;background:#E6F4F4;border-radius:999px;padding:11px 20px;
+  font:700 14px 'Nunito',sans-serif;color:var(--coral);cursor:pointer;transition:all .16s;
 }
-.btn-sec:hover{border-color:var(--tinta-30);background:#F6F9FC}
-.btn-sec.peligro{color:var(--rojo);border-color:#F0C4D0}
-.btn-sec.peligro:hover{background:#FDF2F5;border-color:var(--rojo)}
+.btn-sec:hover{background:#D6ECEC} .btn-sec:active{transform:scale(.96)}
 
 /* ─── Cajas ─── */
-.titulo-sec{font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:600;margin:0 0 10px;color:var(--tinta-60)}
-.cajas{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:12px;margin-bottom:16px}
-.caja{background:var(--papel-2);border:0;border-radius:var(--radio);box-shadow:var(--sombra);padding:0;text-align:left;cursor:pointer;overflow:hidden;transition:transform .14s,box-shadow .14s;font-family:inherit;display:block;width:100%}
-.caja:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(22,32,46,.14)}
-.caja:focus-visible{outline:3px solid var(--oro);outline-offset:2px}
-.caja .franja{height:6px}
-.caja .cuerpo{padding:24px 20px 26px}
-.caja .nom{font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:21px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.caja .nom .flecha{color:var(--tinta-30);font-size:20px;transition:transform .14s}
-.caja:hover .nom .flecha{transform:translateX(3px)}
-.caja .pie{font-size:12.5px;color:var(--tinta-60);margin-top:8px}
-.caja-nueva{border:2px dashed var(--linea);background:transparent;box-shadow:none;display:flex;align-items:center;justify-content:center;min-height:130px;color:var(--tinta-30);font-size:14px;font-weight:500;cursor:default;padding:20px;text-align:center}
+.titulo-sec{font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;margin:0 0 12px;color:var(--tinta-60)}
+.cajas{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:14px;margin-bottom:16px}
+.caja{
+  border:0;border-radius:var(--radio);box-shadow:var(--sombra);padding:0;text-align:left;
+  cursor:pointer;overflow:hidden;transition:transform .18s cubic-bezier(.2,.9,.3,1),box-shadow .18s;
+  font-family:inherit;display:block;width:100%;position:relative;color:#fff;
+}
+.caja:hover{transform:translateY(-4px);box-shadow:var(--sombra-alta)}
+.caja:active{transform:scale(.98)}
+.caja:focus-visible{outline:3px solid var(--dorado);outline-offset:3px}
+.caja .cuerpo{padding:24px 22px 26px;position:relative;z-index:1}
+.caja .burbuja{position:absolute;border-radius:50%;background:rgba(255,255,255,.15)}
+.caja .b1{width:130px;height:130px;right:-34px;top:-46px}
+.caja .b2{width:70px;height:70px;right:44px;bottom:-30px}
+.caja .icono{font-size:27px;line-height:1;margin-bottom:12px;display:block}
+.caja .nom{font-family:'Fredoka',sans-serif;font-weight:600;font-size:22px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.caja .nom .flecha{font-size:21px;opacity:.75;transition:transform .18s}
+.caja:hover .nom .flecha{transform:translateX(4px)}
+.caja .pie{font-size:13px;margin-top:6px;color:rgba(255,255,255,.86);font-weight:600}
+.caja-nueva{
+  border:2.5px dashed #D3E3EA;background:rgba(255,255,255,.5);box-shadow:none;color:var(--tinta-30);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  min-height:140px;font-size:14px;font-weight:700;cursor:default;padding:20px;text-align:center;
+}
 .caja-nueva:hover{transform:none;box-shadow:none}
+.caja-nueva .em{font-size:24px;opacity:.6}
 
 /* ─── Casillas ─── */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:7px}
-.celda{position:relative;background:var(--papel-2);border:1.5px solid var(--linea);border-radius:11px;padding:14px 4px 12px;text-align:center;cursor:pointer;transition:transform .12s,box-shadow .12s,background .2s,border-color .2s;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
-.celda:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(22,32,46,.12);border-color:var(--tinta-30)}
-.celda:focus-visible{outline:3px solid var(--oro);outline-offset:2px}
-.celda .n{position:absolute;top:4px;left:6px;font-size:9px;color:var(--tinta-30)}
-.celda .m{font-size:17px;font-weight:600;line-height:1.1;display:block;color:var(--tinta)}
-.celda.on{border-width:2px}
-.celda.on .m{color:#fff}
-.celda.on .n{color:rgba(255,255,255,.65)}
-.celda.on::after{content:"✓";position:absolute;top:3px;right:6px;font-size:11px;color:rgba(255,255,255,.85);font-family:'DM Sans',sans-serif}
-.celda.sello{animation:sello .35s cubic-bezier(.2,1.4,.4,1)}
-@keyframes sello{0%{transform:scale(.86)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
-.pie-caja{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:24px 0 0;color:var(--tinta-60);font-size:12.5px}
-.link-reinicio{
-  background:none;border:0;padding:4px 2px;cursor:pointer;
-  font:600 13.5px 'DM Sans',sans-serif;color:var(--tinta-60);
-  text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1.5px;transition:color .15s;
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px}
+.celda{
+  position:relative;border:0;border-radius:16px;padding:16px 4px 14px;
+  text-align:center;cursor:pointer;overflow:hidden;
+  transition:transform .16s cubic-bezier(.2,.9,.3,1),box-shadow .16s,filter .2s;
+  font-family:'Nunito',sans-serif;font-variant-numeric:tabular-nums;
+  box-shadow:0 2px 6px rgba(31,58,92,.07), inset 0 0 0 2px rgba(255,255,255,.9);
 }
-.link-reinicio:hover{color:var(--rojo)}
-.link-reinicio:focus-visible{outline:3px solid var(--oro);outline-offset:3px;border-radius:4px}
+/* moneda tenue de fondo */
+.celda::before{
+  content:"";position:absolute;left:50%;top:50%;width:70%;padding-bottom:70%;
+  transform:translate(-50%,-50%);border-radius:50%;
+  border:2px dashed currentColor;opacity:.14;pointer-events:none;
+}
+.celda:hover{transform:translateY(-3px);box-shadow:0 9px 20px rgba(31,58,92,.18), inset 0 0 0 2px rgba(255,255,255,.9)}
+.celda:active{transform:scale(.94)}
+.celda:focus-visible{outline:3px solid var(--dorado);outline-offset:2px}
+.celda .n{position:absolute;top:5px;left:8px;font-size:9.5px;opacity:.6;font-weight:700}
+.celda .s{display:block;font-size:9.5px;font-weight:800;opacity:.62;letter-spacing:.09em;margin-bottom:1px}
+.celda .m{font-size:19px;font-weight:800;line-height:1.05;display:block}
+.celda.on{box-shadow:0 6px 16px rgba(14,148,148,.34), inset 0 0 0 2px rgba(255,255,255,.28)}
+.celda.on .m,.celda.on .s,.celda.on .n{color:#fff}
+.celda.on .n{opacity:.72} .celda.on .s{opacity:.8}
+.celda.on::before{border-color:#fff;opacity:.22}
+.celda.on::after{
+  content:"✓";position:absolute;top:4px;right:8px;font-size:12px;font-weight:800;
+  color:#fff;opacity:.92;
+}
+.celda.sello{animation:sello .5s cubic-bezier(.2,1.5,.35,1)}
+@keyframes sello{0%{transform:scale(.8) rotate(-6deg)}55%{transform:scale(1.12) rotate(3deg)}100%{transform:scale(1) rotate(0)}}
+
+.pie-caja{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:26px 0 0;color:var(--tinta-60);font-size:13px;font-weight:600}
+.link-reinicio{
+  background:rgba(255,255,255,.8);border:1.5px solid var(--linea);border-radius:999px;padding:9px 17px;
+  cursor:pointer;font:700 13.5px 'Nunito',sans-serif;color:var(--tinta-60);transition:all .16s;
+}
+.link-reinicio:hover{color:var(--coral);border-color:#B9DFE0}
+.link-reinicio:active{transform:scale(.96)}
+.link-reinicio:focus-visible{outline:3px solid var(--dorado);outline-offset:3px}
 
 /* ─── Modal ─── */
-.velo{position:fixed;inset:0;background:rgba(22,32,46,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
-.velo.on{display:flex}
-.modal{background:#fff;border-radius:18px;padding:24px;max-width:360px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,.3);max-height:88vh;overflow:auto}
-.modal h3{font-family:'Bricolage Grotesque',sans-serif;margin:0 0 6px;font-size:19px}
-.modal .monto-g{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:36px;display:block;margin:6px 0 12px}
-.modal p{margin:0 0 16px;font-size:14.5px;color:var(--tinta-60)}
-.modal p.alerta{background:#FFF6E0;border:1px solid #E8CF8E;color:#6B4E0B;border-radius:10px;padding:11px 13px;font-size:13.5px}
-.modal label{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--tinta-60);margin-bottom:7px;font-weight:500}
-.modal select,.modal input{
-  width:100%;padding:12px 13px;border:1.5px solid var(--linea);border-radius:10px;
-  font:600 16px 'IBM Plex Mono',monospace;color:var(--tinta);background:#fff;margin-bottom:14px;
+.velo{position:fixed;inset:0;background:rgba(20,45,72,.52);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
+.velo.on{display:flex;animation:fade .2s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal{
+  background:#fff;border-radius:26px;padding:26px;max-width:360px;width:100%;
+  box-shadow:0 24px 60px rgba(20,45,72,.3);max-height:88vh;overflow:auto;
+  animation:sube .28s cubic-bezier(.2,1.1,.3,1);
 }
-.modal select{font-family:'DM Sans',sans-serif}
-.modal input:focus,.modal select:focus{outline:0;border-color:var(--tinta)}
+@keyframes sube{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:none}}
+.modal h3{font-family:'Fredoka',sans-serif;margin:0 0 4px;font-size:20px;font-weight:600}
+.modal .monto-g{font-family:'Fredoka',sans-serif;font-weight:700;font-size:40px;display:block;margin:6px 0 12px;line-height:1}
+.modal p{margin:0 0 16px;font-size:14.5px;color:var(--tinta-60);font-weight:600}
+.modal p.alerta{background:#FFF7E8;border:1.5px solid #F5D9A0;color:#8A6314;border-radius:14px;padding:12px 14px;font-size:13.5px}
+.modal label{display:block;font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--tinta-30);margin-bottom:7px;font-weight:800}
+.modal select,.modal input{
+  width:100%;padding:13px 14px;border:2px solid var(--linea);border-radius:14px;
+  font:800 16px 'Nunito',sans-serif;color:var(--tinta);background:#fff;margin-bottom:14px;
+}
+.modal input:focus,.modal select:focus{outline:0;border-color:var(--coral)}
 .billetes{display:flex;gap:7px;flex-wrap:wrap;margin:-6px 0 14px}
 .billetes button{
-  border:1.5px solid var(--linea);background:#fff;border-radius:8px;padding:7px 11px;
-  font:600 13px 'IBM Plex Mono',monospace;cursor:pointer;color:var(--tinta-60);transition:all .15s;
+  border:2px solid var(--linea);background:#fff;border-radius:999px;padding:7px 13px;
+  font:800 13px 'Nunito',sans-serif;cursor:pointer;color:var(--tinta-60);transition:all .15s;
 }
-.billetes button:hover{border-color:var(--tinta);color:var(--tinta)}
-.modal-btns{display:flex;gap:9px}
-.btn{flex:1;border:0;border-radius:10px;padding:12px;font:700 14.5px 'DM Sans',sans-serif;cursor:pointer;transition:opacity .15s}
-.btn:hover{opacity:.87}
-.btn-ok{background:var(--tinta);color:#fff}
-.btn-no{background:#EAEFF5;color:var(--tinta)}
-.btn-peligro{background:var(--rojo);color:#fff}
+.billetes button:hover{border-color:var(--coral);color:var(--coral)}
+.billetes button:active{transform:scale(.94)}
+.modal-btns{display:flex;gap:10px}
+.btn{flex:1;border:0;border-radius:15px;padding:14px;font:800 15px 'Nunito',sans-serif;cursor:pointer;transition:transform .14s,opacity .14s}
+.btn:hover{opacity:.9} .btn:active{transform:scale(.96)}
+.btn-ok{background:linear-gradient(120deg,var(--coral),var(--durazno));color:#fff;box-shadow:0 6px 16px rgba(14,148,148,.32)}
+.btn-no{background:#EDF2F7;color:var(--tinta-60)}
+.btn-peligro{background:linear-gradient(120deg,#4C7FD6,#5660D6);color:#fff;box-shadow:0 6px 16px rgba(86,96,214,.30)}
 
-.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,140%);background:var(--tinta);color:#fff;padding:12px 20px;border-radius:999px;font-size:14px;font-weight:500;box-shadow:0 10px 30px rgba(0,0,0,.25);z-index:60;transition:transform .3s cubic-bezier(.2,.9,.3,1);max-width:90vw;text-align:center}
+/* ─── Toast y confeti ─── */
+.toast{
+  position:fixed;left:50%;bottom:24px;transform:translate(-50%,150%);
+  background:linear-gradient(120deg,var(--coral),var(--lila));color:#fff;
+  padding:13px 22px;border-radius:999px;font-size:14.5px;font-weight:800;
+  box-shadow:0 12px 30px rgba(40,110,160,.35);z-index:60;
+  transition:transform .35s cubic-bezier(.2,1.1,.3,1);max-width:90vw;text-align:center;
+}
 .toast.on{transform:translate(-50%,0)}
-.aviso{background:#FFF6E0;border:1px solid #E8CF8E;border-radius:var(--radio);padding:13px 16px;margin-bottom:16px;font-size:13.5px;color:#6B4E0B}
+#confeti{position:fixed;inset:0;pointer-events:none;z-index:70;overflow:hidden}
+.chispa{position:absolute;will-change:transform,opacity;font-size:17px;line-height:1}
+@keyframes caer{
+  0%{transform:translate(0,0) rotate(0deg) scale(.6);opacity:0}
+  12%{opacity:1;transform:translate(0,-14px) rotate(20deg) scale(1)}
+  100%{transform:translate(var(--dx),150px) rotate(var(--rot)) scale(.85);opacity:0}
+}
+.aviso{background:#FFF6E3;border:1.5px solid #FFE0A0;border-radius:var(--radio);padding:14px 17px;margin-bottom:16px;font-size:13.5px;color:#8A6314;font-weight:600}
+.instalar{
+  display:none;width:100%;border:0;border-radius:16px;padding:14px;margin-bottom:16px;
+  background:linear-gradient(120deg,var(--lila),var(--coral));color:#fff;
+  font:800 14.5px 'Nunito',sans-serif;cursor:pointer;box-shadow:0 8px 20px rgba(86,96,214,.30);
+}
+.instalar:active{transform:scale(.98)}
 
 @media (max-width:560px){
-  .grid{grid-template-columns:repeat(auto-fill,minmax(66px,1fr));gap:6px}
-  .celda .m{font-size:15px}
-  .reparto{padding:18px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(68px,1fr));gap:7px}
+  .celda{padding:13px 3px 11px;border-radius:14px}
+  .celda .m{font-size:16px}
+  .reparto{padding:20px}
   .reparto-top{gap:18px;justify-content:center}
-  .dona{width:132px;height:132px}
+  .dona{width:138px;height:138px}
   .reparto-pie .btn-sec{flex:1}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -164,8 +264,8 @@ h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(
   <div class="wrap head-in">
     <button class="volver oculto" id="btnVolver" aria-label="Volver al panel">←</button>
     <div>
-      <h1 id="titulo">Ahorro</h1>
-      <div class="sub" id="subtitulo">Nuestras cajas</div>
+      <h1 id="titulo">Ahorro C&amp;J</h1>
+      <div class="sub" id="subtitulo">Nuestras cajitas</div>
     </div>
     <div class="estado-sync"><span class="punto" id="punto"></span><span id="estadoTxt">—</span></div>
   </div>
@@ -173,8 +273,10 @@ h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(
 
 <div class="wrap">
 
+  <button class="instalar" id="btnInstalar">📲 Instalar en el celular</button>
+
   <div class="aviso oculto" id="avisoLocal">
-    <b>Modo de prueba.</b> Falta conectar el Apps Script: lo que hagas se guarda solo en este dispositivo. Pega la URL en <span class="mono">API_URL</span> dentro del archivo.
+    <b>Modo de prueba.</b> Falta conectar el Apps Script: lo que hagas se guarda solo en este dispositivo.
   </div>
 
   <!-- ═══ PANEL ═══ -->
@@ -188,24 +290,24 @@ h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(
     <div class="reparto oculto" id="reparto">
       <div class="reparto-top">
         <div class="dona">
-          <svg width="150" height="150" viewBox="0 0 150 150" id="dona"></svg>
+          <svg width="156" height="156" viewBox="0 0 156 156" id="dona"></svg>
           <div class="centro">
-            <div class="c-num mono" id="donaTotal">S/ 0</div>
+            <div class="c-num num" id="donaTotal">S/ 0</div>
             <div class="c-lbl">Guardado</div>
           </div>
         </div>
         <div class="leyenda">
-          <h2>Reparto del ahorro</h2>
-          <p class="nota" id="notaReparto">De todo lo guardado, cuánto le toca a cada caja.</p>
+          <h2>Nuestro ahorro</h2>
+          <p class="nota" id="notaReparto">De todo lo guardado, cuánto le toca a cada cajita.</p>
           <ul id="leyenda"></ul>
         </div>
       </div>
       <div class="reparto-pie">
-        <button class="btn-sec peligro" id="btnRetiro">Registrar retiro</button>
+        <button class="btn-sec" id="btnRetiro">Registrar retiro</button>
       </div>
     </div>
 
-    <p class="titulo-sec">Cajas</p>
+    <p class="titulo-sec">Nuestras cajitas</p>
     <div class="cajas" id="cajas"></div>
   </section>
 
@@ -213,7 +315,7 @@ h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(
   <section id="vistaCaja" class="oculto">
     <div class="grid" id="grid"></div>
     <div class="pie-caja">
-      <span>Marca la casilla solo cuando el depósito ya esté hecho.</span>
+      <span>Marca la casilla cuando el depósito ya esté hecho</span>
       <button class="link-reinicio" id="btnReinicio">Reiniciar ronda</button>
     </div>
   </section>
@@ -222,6 +324,7 @@ h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(
 
 <div class="velo" id="velo"><div class="modal" id="modal"></div></div>
 <div class="toast" id="toast"></div>
+<div id="confeti"></div>
 
 <script>
 /* ══════════════════════════════════════════════════════════════
@@ -229,18 +332,20 @@ h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(
    ══════════════════════════════════════════════════════════════ */
 const CONFIG = {
   API_URL: "https://script.google.com/macros/s/AKfycbwKEuXlY0VsLKytynH1yXvmLqykbPgPVhWTfkRSi2rrf5yAX9zd_0nvtKUV-sHTs5YX/exec",
-  PIN: "amor2026",      // idéntico al PIN del Apps Script
+  PIN: "amor2026",
   REFRESCO_SEG: 25
 };
 
 /* ══════════════════════════════════════════════════════════════
-   ②  CAJAS — el mismo bloque tiene que existir en el Apps Script
+   ②  CAJAS — icono y colores de cada una
    ══════════════════════════════════════════════════════════════ */
 const CAJAS = [
   {
     id: "ahorro-cj",
     nombre: "Ahorro C&J",
-    color: "#0E7C7B",
+    icono: "🪙",
+    color: "#0E9494",
+    color2: "#3FBFA8",
     montos: [
       120,40,90,40,90,90,130,70,130,100,120,150,50,130,150,110,140,120,70,120,
       150,70,100,140,150,110,30,100,140,80,60,50,150,60,60,70,140,150,50,100,
@@ -254,16 +359,19 @@ const CAJAS = [
       50,150,40,150,80,150,50,120,100,130,150,40,30,140,40,150,120,60,30,110
     ]
   }
-  /* Para agregar otra caja, copia este bloque:
-  ,{ id:"emergencias", nombre:"Emergencias", color:"#C98A16", montos:[ ... ] }
+  /* Para agregar otra cajita:
+  ,{ id:"viajes", nombre:"Viajes", icono:"✈️", color:"#5660D6", color2:"#7C8BE8", montos:[ ... ] }
+  ,{ id:"emergencias", nombre:"Emergencias", icono:"🌂", color:"#E08A2B", color2:"#F2B65A", montos:[ ... ] }
   */
+];
+
+const PIROPOS = [
+  "Otra casilla lista","Así se hace, equipo","Un pasito más","Vamos bien ✨",
+  "Cada casilla cuenta","Buen ritmo","Una menos","Sigan así 🪙"
 ];
 
 /* ══════════════════════════════════════════════════════════════
    ③  ESTADO
-       marcas  = { "ahorro-cj": { "12": "fechaISO" } }   ronda actual
-       saldos  = { "ahorro-cj": 4300 }                   acumulado aparte
-       Guardado de una caja = saldo + suma de casillas marcadas
    ══════════════════════════════════════════════════════════════ */
 let marcas = {}, saldos = {};
 let cajaActual = null, selloEn = null, totalesAbierto = false;
@@ -304,11 +412,7 @@ async function llamaAPI(params){
   return j;
 }
 
-function aplica(j){
-  marcas = j.marcas || {};
-  saldos = j.saldos || {};
-  guardaLocal();
-}
+function aplica(j){ marcas = j.marcas || {}; saldos = j.saldos || {}; guardaLocal(); }
 
 async function traerEstado(silencioso){
   if(!hayBackend){ const d = leeLocal(); marcas = d.marcas||{}; saldos = d.saldos||{}; pinta(); return; }
@@ -332,38 +436,31 @@ async function accion(params, msgError){
     return true;
   }catch(e){
     marcaSync("err","No se guardó");
-    toast(msgError || ("No se guardó: " + e.message));
+    toast(msgError || "No se guardó. Revisa tu internet.");
     return false;
   }
 }
 
 /* ══════════════════════════════════════════════════════════════
-   ⑤  LÓGICA DE RETIRO — la misma que corre en el Apps Script.
-       Regla: se desmarca la casilla más chica que alcance a cubrir
-       el retiro; lo que sobra queda como saldo de la caja.
+   ⑤  RETIRO — misma regla que el Apps Script
    ══════════════════════════════════════════════════════════════ */
 function planRetiro(c, monto){
   const disponible = guardado(c);
-  if(monto > disponible) return {error:"Solo hay " + sol(disponible) + " en esta caja."};
-
+  if(monto > disponible) return {error:"Solo hay " + sol(disponible) + " en esta cajita."};
   let falta = monto;
-  let usarSaldo = Math.min(saldoDe(c), falta);
+  const usarSaldo = Math.min(saldoDe(c), falta);
   falta -= usarSaldo;
 
   const marcadas = Object.keys(marcas[c.id] || {})
-    .map(k => ({i:+k, m:c.montos[k]}))
-    .sort((a,b)=> a.m - b.m);
+    .map(k => ({i:+k, m:c.montos[k]})).sort((a,b)=> a.m - b.m);
 
   const quitar = [];
   if(falta > 0){
     const suficiente = marcadas.find(x => x.m >= falta);
-    if(suficiente){
-      quitar.push(suficiente.i);
-      falta -= suficiente.m;              // queda en negativo = sobrante
-    } else {
+    if(suficiente){ quitar.push(suficiente.i); falta -= suficiente.m; }
+    else {
       for(let k = marcadas.length - 1; k >= 0 && falta > 0; k--){
-        quitar.push(marcadas[k].i);
-        falta -= marcadas[k].m;
+        quitar.push(marcadas[k].i); falta -= marcadas[k].m;
       }
     }
   }
@@ -379,34 +476,42 @@ function pintaPanel(){
 
   $("donaTotal").textContent = sol(total);
 
-  const svg = $("dona"), R = 60, CX = 75, CY = 75, GROSOR = 20, circ = 2*Math.PI*R;
+  const svg = $("dona"), R = 62, CX = 78, CY = 78, GROSOR = 21, circ = 2*Math.PI*R;
+  let defs = '<defs>';
+  datos.forEach((d,i)=>{
+    defs += '<linearGradient id="g'+i+'" x1="0" y1="0" x2="1" y2="1">' +
+            '<stop offset="0%" stop-color="'+d.c.color+'"/>' +
+            '<stop offset="100%" stop-color="'+(d.c.color2||d.c.color)+'"/></linearGradient>';
+  });
+  defs += '</defs>';
+
   if(total === 0){
-    svg.innerHTML = '<circle cx="75" cy="75" r="60" fill="none" stroke="#E5EAF1" stroke-width="20"/>';
+    svg.innerHTML = defs + '<circle cx="78" cy="78" r="62" fill="none" stroke="#E4EEF2" stroke-width="21"/>';
   } else {
     let acum = 0, s = "";
-    datos.forEach(d=>{
+    datos.forEach((d,i)=>{
       if(d.g <= 0) return;
       const frac = d.g / total;
-      s += '<circle cx="'+CX+'" cy="'+CY+'" r="'+R+'" fill="none" stroke="'+d.c.color+'"' +
-           ' stroke-width="'+GROSOR+'" stroke-dasharray="'+(frac*circ)+' '+circ+'"' +
+      s += '<circle cx="'+CX+'" cy="'+CY+'" r="'+R+'" fill="none" stroke="url(#g'+i+')"' +
+           ' stroke-width="'+GROSOR+'" stroke-linecap="round"' +
+           ' stroke-dasharray="'+(frac*circ - (datos.length>1?4:0))+' '+circ+'"' +
            ' stroke-dashoffset="'+(-acum*circ)+'"><title>'+d.c.nombre+': '+sol(d.g)+'</title></circle>';
       acum += frac;
     });
-    svg.innerHTML = s;
+    svg.innerHTML = defs + s;
   }
 
   $("notaReparto").textContent = total === 0
-    ? "Cuando marquen la primera casilla, aquí se ve el reparto."
-    : "De todo lo guardado, cuánto le toca a cada caja.";
+    ? "Cuando marquen la primera casilla, aquí aparece el reparto."
+    : "De todo lo guardado, cuánto le toca a cada cajita.";
 
   $("leyenda").innerHTML = datos.map(d=>{
     const pc = total ? (d.g/total*100).toFixed(0) + "%" : "—";
     const nMarc = Object.keys(marcas[d.c.id] || {}).length;
-    return '<li><span class="pastilla" style="background:'+d.c.color+'"></span>' +
-           '<span class="nom">'+d.c.nombre+
-             '<span class="det">'+nMarc+' de '+d.c.montos.length+' casillas · ronda de '+sol(meta(d.c))+'</span>' +
-           '</span>' +
-           '<span class="val">'+sol(d.g)+'</span>' +
+    return '<li><span class="pastilla" style="background:linear-gradient(135deg,'+d.c.color+','+(d.c.color2||d.c.color)+')"></span>' +
+           '<span class="nom">'+d.c.icono+' '+d.c.nombre+
+             '<span class="det">'+nMarc+' de '+d.c.montos.length+' casillas · ronda de '+sol(meta(d.c))+'</span></span>' +
+           '<span class="val num">'+sol(d.g)+'</span>' +
            '<span class="pc">'+pc+'</span></li>';
   }).join("");
 
@@ -415,28 +520,41 @@ function pintaPanel(){
   datos.forEach(d=>{
     const b = document.createElement("button");
     b.className = "caja"; b.type = "button";
+    b.style.background = "linear-gradient(130deg," + d.c.color + " 0%," + (d.c.color2||d.c.color) + " 100%)";
     b.innerHTML =
-      '<div class="franja" style="background:'+d.c.color+'"></div>' +
+      '<span class="burbuja b1"></span><span class="burbuja b2"></span>' +
       '<div class="cuerpo">' +
+        '<span class="icono">'+d.c.icono+'</span>' +
         '<div class="nom">'+d.c.nombre+'<span class="flecha">›</span></div>' +
         '<div class="pie">'+d.c.montos.length+' casillas</div>' +
       '</div>';
     b.onclick = ()=> location.hash = "#/" + d.c.id;
     cont.appendChild(b);
   });
+
   const nueva = document.createElement("div");
   nueva.className = "caja caja-nueva";
-  nueva.textContent = "Más adelante: Emergencias, Viajes…";
+  nueva.innerHTML = '<span class="em">✈️ 🌂 🏠</span><span>Aquí irán Viajes,<br>Emergencias y las que quieran</span>';
   cont.appendChild(nueva);
 }
 
 /* ══════════════════════════════════════════════════════════════
    ⑦  CASILLAS
    ══════════════════════════════════════════════════════════════ */
+function hexRGB(h){
+  h = h.replace("#","");
+  return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)];
+}
+function mezcla(a, b, t){
+  return a.map((v,i)=> Math.round(v + (b[i]-v)*t));
+}
+
 function pintaCasillas(){
   const c = caja(cajaActual);
   if(!c) return;
   const m = marcas[c.id] || {};
+  const minMonto = Math.min.apply(null, c.montos);
+  const maxMonto = Math.max.apply(null, c.montos);
   const g = $("grid");
   g.innerHTML = "";
   c.montos.forEach((monto,i)=>{
@@ -444,9 +562,18 @@ function pintaCasillas(){
     const d = document.createElement("button");
     d.type = "button";
     d.className = "celda" + (on ? " on" : "") + (selloEn === i ? " sello" : "");
-    if(on){ d.style.background = c.color; d.style.borderColor = c.color; }
+    if(on){
+      d.style.background = "linear-gradient(140deg," + c.color + " 0%," + (c.color2||c.color) + " 100%)";
+    } else {
+      /* las pendientes toman un tinte suave: más monto, más color */
+      const t = (monto - minMonto) / Math.max(1, maxMonto - minMonto);
+      const claro = mezcla([255,255,255], hexRGB(c.color2||c.color), 0.05 + t*0.16);
+      const suave = mezcla([255,255,255], hexRGB(c.color), 0.12 + t*0.26);
+      d.style.background = "linear-gradient(150deg,rgb("+claro.join(",")+") 0%,rgb("+suave.join(",")+") 100%)";
+      d.style.color = c.color;
+    }
     d.setAttribute("aria-label", "Casilla " + (i+1) + ", " + sol(monto) + (on ? ", marcada" : ", pendiente"));
-    d.innerHTML = '<span class="n">'+(i+1)+'</span><span class="m">'+monto+'</span>';
+    d.innerHTML = '<span class="n">'+(i+1)+'</span><span class="s">S/</span><span class="m">'+monto+'</span>';
     d.onclick = ()=> modalCasilla(i);
     g.appendChild(d);
   });
@@ -463,15 +590,15 @@ function ruta(){
   const c = caja(h);
   if(c){
     cajaActual = c.id;
-    $("titulo").textContent = c.nombre;
+    $("titulo").innerHTML = c.icono + " " + c.nombre;
     $("subtitulo").textContent = c.montos.length + " casillas · solo billetes, sin monedas";
     $("btnVolver").classList.remove("oculto");
     $("vistaPanel").classList.add("oculto");
     $("vistaCaja").classList.remove("oculto");
   } else {
     cajaActual = null;
-    $("titulo").textContent = "Ahorro";
-    $("subtitulo").textContent = "Nuestras cajas";
+    $("titulo").innerHTML = "Ahorro C&amp;J";
+    $("subtitulo").textContent = "Nuestras cajitas";
     $("btnVolver").classList.add("oculto");
     $("vistaPanel").classList.remove("oculto");
     $("vistaCaja").classList.add("oculto");
@@ -491,32 +618,59 @@ $("btnTotales").onclick = ()=>{
 };
 
 /* ══════════════════════════════════════════════════════════════
-   ⑨  MODALES
+   ⑨  TOAST Y CONFETI
    ══════════════════════════════════════════════════════════════ */
 function toast(t){
   const el = $("toast");
   el.textContent = t; el.classList.add("on");
   clearTimeout(el._t);
-  el._t = setTimeout(()=>el.classList.remove("on"), 3400);
+  el._t = setTimeout(()=>el.classList.remove("on"), 3200);
 }
+
+function confeti(elemento){
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const cont = $("confeti");
+  const r = elemento ? elemento.getBoundingClientRect() : null;
+  const x0 = r ? r.left + r.width/2 : innerWidth/2;
+  const y0 = r ? r.top + r.height/2 : innerHeight/2;
+  const simbolos = ["✨","🪙","⭐","💫","✨","💙"];
+
+  for(let i = 0; i < 14; i++){
+    const s = document.createElement("span");
+    s.className = "chispa";
+    s.textContent = simbolos[Math.floor(Math.random()*simbolos.length)];
+    s.style.left = (x0 + (Math.random()*54 - 27)) + "px";
+    s.style.top  = (y0 - 6) + "px";
+    s.style.setProperty("--dx", (Math.random()*130 - 65) + "px");
+    s.style.setProperty("--rot", (Math.random()*520 - 260) + "deg");
+    s.style.fontSize = (12 + Math.random()*12) + "px";
+    s.style.animation = "caer " + (900 + Math.random()*600) + "ms cubic-bezier(.25,.7,.4,1) forwards";
+    s.style.animationDelay = (Math.random()*130) + "ms";
+    cont.appendChild(s);
+    setTimeout(()=> s.remove(), 1800);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ⑩  MODALES
+   ══════════════════════════════════════════════════════════════ */
 function abre(html){ $("modal").innerHTML = html; $("velo").classList.add("on"); }
 function cierra(){ $("velo").classList.remove("on"); }
 $("velo").onclick = e => { if(e.target === $("velo")) cierra(); };
 document.addEventListener("keydown", e => { if(e.key === "Escape") cierra(); });
 
-/* ── Marcar / desmarcar casilla ── */
 function modalCasilla(i){
   const c = caja(cajaActual);
   const on = !!(marcas[c.id] || {})[i];
 
   abre(
     '<h3>Casilla ' + (i+1) + '</h3>' +
-    '<span class="monto-g mono" style="color:' + (on ? c.color : 'var(--tinta)') + '">' + sol(c.montos[i]) + '</span>' +
+    '<span class="monto-g num" style="background:linear-gradient(120deg,'+c.color+','+(c.color2||c.color)+');-webkit-background-clip:text;background-clip:text;color:transparent">' + sol(c.montos[i]) + '</span>' +
     '<p>' + (on ? "Esta casilla ya está marcada. Quítala solo si fue un error."
-                : "¿Ya depositaste este monto en la cuenta?") + '</p>' +
+                : "¿Ya depositaron este monto en la cuenta?") + '</p>' +
     '<div class="modal-btns">' +
       '<button class="btn ' + (on ? 'btn-peligro' : 'btn-ok') + '" id="mSi">' +
-        (on ? "Quitar marca" : "Sí, ya deposité") + '</button>' +
+        (on ? "Quitar marca" : "Sí, ya está") + '</button>' +
       '<button class="btn btn-no" id="mNo">' + (on ? "Cerrar" : "Todavía no") + '</button>' +
     '</div>'
   );
@@ -528,27 +682,32 @@ function modalCasilla(i){
     if(on){ delete marcas[c.id][i]; }
     else { if(!marcas[c.id]) marcas[c.id] = {}; marcas[c.id][i] = new Date().toISOString(); selloEn = i; }
     pinta();
+
+    if(!on){
+      const celda = $("grid").children[i];
+      confeti(celda);
+      if(navigator.vibrate) try{ navigator.vibrate(18); }catch(e){}
+    }
+
     const ok = await accion({action: on ? "desmarcar" : "marcar", caja:c.id, i:i});
     if(!ok){ const d = JSON.parse(prev); marcas = d.marcas; saldos = d.saldos; }
-    else { toast(on ? "Marca quitada." : "Casilla marcada."); }
+    else { toast(on ? "Marca quitada" : PIROPOS[Math.floor(Math.random()*PIROPOS.length)]); }
     pinta();
   };
 }
 
-/* ── Reiniciar ronda ── */
 $("btnReinicio").onclick = ()=>{
   const c = caja(cajaActual);
   const enJuego = enCasillas(c);
   const nMarc = Object.keys(marcas[c.id] || {}).length;
-
-  if(nMarc === 0){ toast("No hay casillas marcadas en esta ronda."); return; }
+  if(nMarc === 0){ toast("No hay casillas marcadas todavía"); return; }
 
   abre(
     '<h3>Reiniciar ronda</h3>' +
-    '<span class="monto-g mono" style="color:' + c.color + '">' + sol(enJuego) + '</span>' +
-    '<p>Se van a borrar las <b>' + nMarc + ' marcas</b> de esta ronda y esos ' + sol(enJuego) +
-      ' pasan al acumulado de ' + c.nombre + '. Total de la caja después: <b>' + sol(guardado(c)) + '</b> — no se pierde nada.</p>' +
-    '<p class="alerta">El tablero queda en blanco para empezar de nuevo. Esto no se puede deshacer.</p>' +
+    '<span class="monto-g num" style="color:'+c.color+'">' + sol(enJuego) + '</span>' +
+    '<p>Se borran las <b>' + nMarc + ' marcas</b> de esta ronda y esos ' + sol(enJuego) +
+      ' pasan al acumulado de ' + c.nombre + '. La cajita queda con <b>' + sol(guardado(c)) + '</b> — no se pierde nada.</p>' +
+    '<p class="alerta">El tablero queda en blanco para empezar otra vuelta. Esto no se puede deshacer.</p>' +
     '<div class="modal-btns">' +
       '<button class="btn btn-peligro" id="rSi">Sí, reiniciar</button>' +
       '<button class="btn btn-no" id="rNo">Cancelar</button>' +
@@ -562,22 +721,22 @@ $("btnReinicio").onclick = ()=>{
     saldos[c.id] = saldoDe(c) + enJuego;
     marcas[c.id] = {};
     pinta();
+    confeti(null);
     const ok = await accion({action:"reiniciar", caja:c.id});
     if(!ok){ const d = JSON.parse(prev); marcas = d.marcas; saldos = d.saldos; }
-    else { toast("Ronda reiniciada. " + sol(enJuego) + " quedan en el acumulado."); }
+    else { toast("¡Ronda completa! " + sol(enJuego) + " al acumulado ✨"); }
     pinta();
   };
 };
 
-/* ── Registrar retiro ── */
 $("btnRetiro").onclick = ()=>{
   const opciones = CAJAS.map(c =>
-    '<option value="'+c.id+'">'+c.nombre+' — '+sol(guardado(c))+' disponible</option>').join("");
+    '<option value="'+c.id+'">'+c.icono+' '+c.nombre+' — '+sol(guardado(c))+' disponible</option>').join("");
 
   abre(
     '<h3>Registrar retiro</h3>' +
-    '<p>Anota aquí la plata que sacaron de la cuenta. Solo billetes: montos en múltiplos de 10.</p>' +
-    '<label for="rCaja">De qué caja</label>' +
+    '<p>Anoten aquí la plata que sacaron de la cuenta. Solo billetes: montos en múltiplos de 10.</p>' +
+    '<label for="rCaja">De qué cajita</label>' +
     '<select id="rCaja">' + opciones + '</select>' +
     '<label for="rMonto">Cuánto retiraron</label>' +
     '<input id="rMonto" type="number" inputmode="numeric" step="10" min="10" placeholder="0">' +
@@ -598,13 +757,13 @@ $("btnRetiro").onclick = ()=>{
     const c = caja(sel.value);
     const monto = parseInt(inp.value, 10);
     if(!monto || monto <= 0){ prev.innerHTML = "&nbsp;"; return; }
-    if(monto % 10 !== 0){ prev.innerHTML = '<span style="color:var(--rojo)">Solo billetes: el monto debe terminar en 0.</span>'; return; }
+    if(monto % 10 !== 0){ prev.innerHTML = '<span style="color:var(--coral)">Solo billetes: el monto debe terminar en 0.</span>'; return; }
     const p = planRetiro(c, monto);
-    if(p.error){ prev.innerHTML = '<span style="color:var(--rojo)">'+p.error+'</span>'; return; }
+    if(p.error){ prev.innerHTML = '<span style="color:var(--coral)">'+p.error+'</span>'; return; }
     const partes = [];
     if(p.quitar.length) partes.push("se desmarcan <b>" + p.quitar.length + (p.quitar.length===1?" casilla":" casillas") + "</b>");
     if(p.sobrante) partes.push("quedan " + sol(p.sobrante) + " de vuelta en el acumulado");
-    prev.innerHTML = "La caja baja a <b>" + sol(guardado(c) - monto) + "</b>" +
+    prev.innerHTML = "La cajita baja a <b>" + sol(guardado(c) - monto) + "</b>" +
                      (partes.length ? " · " + partes.join(" y ") : "") + ".";
   }
 
@@ -622,8 +781,8 @@ $("btnRetiro").onclick = ()=>{
   $("wSi").onclick = async ()=>{
     const c = caja(sel.value);
     const monto = parseInt(inp.value, 10);
-    if(!monto || monto <= 0){ toast("Escribe cuánto retiraron."); return; }
-    if(monto % 10 !== 0){ toast("Solo billetes: el monto debe terminar en 0."); return; }
+    if(!monto || monto <= 0){ toast("Escribe cuánto retiraron"); return; }
+    if(monto % 10 !== 0){ toast("Solo billetes: debe terminar en 0"); return; }
     const p = planRetiro(c, monto);
     if(p.error){ toast(p.error); return; }
 
@@ -637,14 +796,38 @@ $("btnRetiro").onclick = ()=>{
     if(!ok){ const d = JSON.parse(antes); marcas = d.marcas; saldos = d.saldos; }
     else {
       toast("Retiro de " + sol(monto) + " registrado" +
-            (p.quitar.length ? " · " + p.quitar.length + (p.quitar.length===1?" casilla desmarcada":" casillas desmarcadas") : "") + ".");
+            (p.quitar.length ? " · " + p.quitar.length + (p.quitar.length===1?" casilla desmarcada":" casillas desmarcadas") : ""));
     }
     pinta();
   };
 };
 
 /* ══════════════════════════════════════════════════════════════
-   ⑩  ARRANQUE
+   ⑪  INSTALAR COMO APP
+   ══════════════════════════════════════════════════════════════ */
+let promptInstalar = null;
+window.addEventListener("beforeinstallprompt", e=>{
+  e.preventDefault();
+  promptInstalar = e;
+  $("btnInstalar").style.display = "block";
+});
+$("btnInstalar").onclick = async ()=>{
+  if(!promptInstalar) return;
+  promptInstalar.prompt();
+  await promptInstalar.userChoice;
+  promptInstalar = null;
+  $("btnInstalar").style.display = "none";
+};
+window.addEventListener("appinstalled", ()=>{ $("btnInstalar").style.display = "none"; });
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load", ()=>{
+    navigator.serviceWorker.register("./sw.js").catch(()=>{});
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ⑫  ARRANQUE
    ══════════════════════════════════════════════════════════════ */
 (function init(){
   if(!hayBackend){ $("avisoLocal").classList.remove("oculto"); marcaSync("err","Modo local"); }
