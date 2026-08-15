@@ -38,8 +38,8 @@
 html,body{margin:0;padding:0}
 body{
   min-height:100vh;
-  background:linear-gradient(165deg,#EEF7F7 0%,#F0F5FB 48%,#F1F0FC 100%);
-  background-attachment:fixed;
+  background:linear-gradient(165deg,#EEF7F7 0%,#F0F5FB 48%,#F1F0FC 100%) no-repeat;
+  background-size:100% 100vh;
   color:var(--tinta);
   font-family:'Nunito',system-ui,-apple-system,sans-serif;
   font-size:15.5px;line-height:1.55;font-weight:600;
@@ -127,7 +127,7 @@ h1{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(24px,6vw,34p
   cursor:pointer;overflow:hidden;transition:transform .18s cubic-bezier(.2,.9,.3,1),box-shadow .18s;
   font-family:inherit;display:block;width:100%;position:relative;color:#fff;
 }
-.caja:hover{transform:translateY(-4px);box-shadow:var(--sombra-alta)}
+@media (hover:hover){.caja:hover{transform:translateY(-4px);box-shadow:var(--sombra-alta)}}
 .caja:active{transform:scale(.98)}
 .caja:focus-visible{outline:3px solid var(--dorado);outline-offset:3px}
 .caja .cuerpo{padding:24px 22px 26px;position:relative;z-index:1}
@@ -137,7 +137,7 @@ h1{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(24px,6vw,34p
 .caja .icono{font-size:27px;line-height:1;margin-bottom:12px;display:block}
 .caja .nom{font-family:'Fredoka',sans-serif;font-weight:600;font-size:22px;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .caja .nom .flecha{font-size:21px;opacity:.75;transition:transform .18s}
-.caja:hover .nom .flecha{transform:translateX(4px)}
+@media (hover:hover){.caja:hover .nom .flecha{transform:translateX(4px)}}
 .caja .pie{font-size:13px;margin-top:6px;color:rgba(255,255,255,.86);font-weight:600}
 .caja-nueva{
   border:2.5px dashed #D3E3EA;background:rgba(255,255,255,.5);box-shadow:none;color:var(--tinta-30);
@@ -148,30 +148,28 @@ h1{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(24px,6vw,34p
 .caja-nueva .em{font-size:24px;opacity:.6}
 
 /* ─── Casillas ─── */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px;contain:layout style}
 .celda{
-  position:relative;border:0;border-radius:16px;padding:16px 4px 14px;
-  text-align:center;cursor:pointer;overflow:hidden;
-  transition:transform .16s cubic-bezier(.2,.9,.3,1),box-shadow .16s,filter .2s;
+  position:relative;border:2px solid rgba(255,255,255,.92);border-radius:16px;
+  padding:16px 4px 14px;text-align:center;cursor:pointer;
+  transition:transform .16s cubic-bezier(.2,.9,.3,1);
   font-family:'Nunito',sans-serif;font-variant-numeric:tabular-nums;
-  box-shadow:0 2px 6px rgba(31,58,92,.07), inset 0 0 0 2px rgba(255,255,255,.9);
+  box-shadow:0 2px 5px rgba(31,58,92,.08);
+  /* el navegador se salta el dibujo de las casillas fuera de pantalla */
+  content-visibility:auto;
+  contain-intrinsic-size:auto 74px;
 }
-/* moneda tenue de fondo */
-.celda::before{
-  content:"";position:absolute;left:50%;top:50%;width:70%;padding-bottom:70%;
-  transform:translate(-50%,-50%);border-radius:50%;
-  border:2px dashed currentColor;opacity:.14;pointer-events:none;
-}
-.celda:hover{transform:translateY(-3px);box-shadow:0 9px 20px rgba(31,58,92,.18), inset 0 0 0 2px rgba(255,255,255,.9)}
 .celda:active{transform:scale(.94)}
 .celda:focus-visible{outline:3px solid var(--dorado);outline-offset:2px}
+@media (hover:hover){
+  .celda:hover{transform:translateY(-3px);box-shadow:0 9px 20px rgba(31,58,92,.18)}
+}
 .celda .n{position:absolute;top:5px;left:8px;font-size:9.5px;opacity:.6;font-weight:700}
 .celda .s{display:block;font-size:9.5px;font-weight:800;opacity:.62;letter-spacing:.09em;margin-bottom:1px}
 .celda .m{font-size:19px;font-weight:800;line-height:1.05;display:block}
-.celda.on{box-shadow:0 6px 16px rgba(14,148,148,.34), inset 0 0 0 2px rgba(255,255,255,.28)}
+.celda.on{border-color:rgba(255,255,255,.35);box-shadow:0 4px 12px rgba(14,148,148,.30)}
 .celda.on .m,.celda.on .s,.celda.on .n{color:#fff}
 .celda.on .n{opacity:.72} .celda.on .s{opacity:.8}
-.celda.on::before{border-color:#fff;opacity:.22}
 .celda.on::after{
   content:"✓";position:absolute;top:4px;right:8px;font-size:12px;font-weight:800;
   color:#fff;opacity:.92;
@@ -549,6 +547,15 @@ function mezcla(a, b, t){
   return a.map((v,i)=> Math.round(v + (b[i]-v)*t));
 }
 
+let gridCajaId = null;   // qué caja está dibujada ahora en la rejilla
+
+function fondoPendiente(c, monto, minMonto, maxMonto){
+  const t = (monto - minMonto) / Math.max(1, maxMonto - minMonto);
+  const claro = mezcla([255,255,255], hexRGB(c.color2||c.color), 0.05 + t*0.16);
+  const suave = mezcla([255,255,255], hexRGB(c.color), 0.12 + t*0.26);
+  return "linear-gradient(150deg,rgb("+claro.join(",")+") 0%,rgb("+suave.join(",")+") 100%)";
+}
+
 function pintaCasillas(){
   const c = caja(cajaActual);
   if(!c) return;
@@ -556,27 +563,41 @@ function pintaCasillas(){
   const minMonto = Math.min.apply(null, c.montos);
   const maxMonto = Math.max.apply(null, c.montos);
   const g = $("grid");
-  g.innerHTML = "";
-  c.montos.forEach((monto,i)=>{
+
+  /* Construir la rejilla solo la primera vez que se entra a esta caja */
+  if(gridCajaId !== c.id || g.children.length !== c.montos.length){
+    const frag = document.createDocumentFragment();
+    c.montos.forEach((monto,i)=>{
+      const d = document.createElement("button");
+      d.type = "button";
+      d.className = "celda";
+      d.dataset.i = i;
+      d.innerHTML = '<span class="n">'+(i+1)+'</span><span class="s">S/</span><span class="m">'+monto+'</span>';
+      frag.appendChild(d);
+    });
+    g.innerHTML = "";
+    g.appendChild(frag);
+    gridCajaId = c.id;
+  }
+
+  /* Después solo se actualiza lo que cambió */
+  const hijos = g.children;
+  for(let i = 0; i < c.montos.length; i++){
+    const d = hijos[i];
     const on = !!m[i];
-    const d = document.createElement("button");
-    d.type = "button";
-    d.className = "celda" + (on ? " on" : "") + (selloEn === i ? " sello" : "");
-    if(on){
-      d.style.background = "linear-gradient(140deg," + c.color + " 0%," + (c.color2||c.color) + " 100%)";
-    } else {
-      /* las pendientes toman un tinte suave: más monto, más color */
-      const t = (monto - minMonto) / Math.max(1, maxMonto - minMonto);
-      const claro = mezcla([255,255,255], hexRGB(c.color2||c.color), 0.05 + t*0.16);
-      const suave = mezcla([255,255,255], hexRGB(c.color), 0.12 + t*0.26);
-      d.style.background = "linear-gradient(150deg,rgb("+claro.join(",")+") 0%,rgb("+suave.join(",")+") 100%)";
-      d.style.color = c.color;
+    const clase = "celda" + (on ? " on" : "") + (selloEn === i ? " sello" : "");
+    if(d.className !== clase) d.className = clase;
+    const fondo = on
+      ? "linear-gradient(140deg," + c.color + " 0%," + (c.color2||c.color) + " 100%)"
+      : fondoPendiente(c, c.montos[i], minMonto, maxMonto);
+    if(d._fondo !== fondo){
+      d.style.background = fondo;
+      d.style.color = on ? "" : c.color;
+      d._fondo = fondo;
     }
-    d.setAttribute("aria-label", "Casilla " + (i+1) + ", " + sol(monto) + (on ? ", marcada" : ", pendiente"));
-    d.innerHTML = '<span class="n">'+(i+1)+'</span><span class="s">S/</span><span class="m">'+monto+'</span>';
-    d.onclick = ()=> modalCasilla(i);
-    g.appendChild(d);
-  });
+    const etiqueta = "Casilla " + (i+1) + ", " + sol(c.montos[i]) + (on ? ", marcada" : ", pendiente");
+    if(d._et !== etiqueta){ d.setAttribute("aria-label", etiqueta); d._et = etiqueta; }
+  }
   selloEn = null;
 }
 
@@ -597,6 +618,7 @@ function ruta(){
     $("vistaCaja").classList.remove("oculto");
   } else {
     cajaActual = null;
+    gridCajaId = null;
     $("titulo").innerHTML = "Ahorro C&amp;J";
     $("subtitulo").textContent = "Nuestras cajitas";
     $("btnVolver").classList.add("oculto");
@@ -608,6 +630,12 @@ function ruta(){
 }
 window.addEventListener("hashchange", ruta);
 $("btnVolver").onclick = ()=> location.hash = "";
+
+/* Un solo escuchador para toda la rejilla */
+$("grid").addEventListener("click", e=>{
+  const celda = e.target.closest(".celda");
+  if(celda && celda.dataset.i !== undefined) modalCasilla(+celda.dataset.i);
+});
 
 $("btnTotales").onclick = ()=>{
   totalesAbierto = !totalesAbierto;
