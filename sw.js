@@ -1,7 +1,7 @@
 /* Service worker mínimo: guarda la app para que abra rápido y sin internet.
    Los datos SIEMPRE se piden a la red (nunca se cachea el Apps Script). */
 
-const CACHE = "ahorro-cj-v3";
+const CACHE = "ahorro-cj-v4";
 const ARCHIVOS = [
   "./",
   "./index.html",

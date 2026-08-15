@@ -238,11 +238,20 @@ h1{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(24px,6vw,34p
 }
 .aviso{background:#FFF6E3;border:1.5px solid #FFE0A0;border-radius:var(--radio);padding:14px 17px;margin-bottom:16px;font-size:13.5px;color:#8A6314;font-weight:600}
 .instalar{
-  display:none;width:100%;border:0;border-radius:16px;padding:14px;margin-bottom:16px;
-  background:linear-gradient(120deg,var(--lila),var(--coral));color:#fff;
-  font:800 14.5px 'Nunito',sans-serif;cursor:pointer;box-shadow:0 8px 20px rgba(86,96,214,.30);
+  display:none;flex:none;width:38px;height:38px;margin-left:10px;padding:0;
+  border:0;border-radius:12px;background:rgba(255,255,255,.22);color:#fff;
+  cursor:pointer;align-items:center;justify-content:center;
+  transition:background .15s,transform .15s;
+  animation:latido 2.6s ease-in-out 3;
 }
-.instalar:active{transform:scale(.98)}
+.instalar.visible{display:flex}
+.instalar:hover{background:rgba(255,255,255,.34)}
+.instalar:active{transform:scale(.9)}
+.instalar:focus-visible{outline:3px solid var(--dorado);outline-offset:2px}
+@keyframes latido{
+  0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}
+  50%{box-shadow:0 0 0 6px rgba(255,255,255,.16)}
+}
 
 @media (max-width:560px){
   .grid{grid-template-columns:repeat(auto-fill,minmax(68px,1fr));gap:7px}
@@ -266,12 +275,16 @@ h1{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(24px,6vw,34p
       <div class="sub" id="subtitulo">Nuestras cajitas</div>
     </div>
     <div class="estado-sync"><span class="punto" id="punto"></span><span id="estadoTxt">—</span></div>
+    <button class="instalar" id="btnInstalar" aria-label="Instalar en el celular" title="Instalar en el celular">
+      <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor"
+           stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3v11"/><path d="M7.5 10.5 12 15l4.5-4.5"/><path d="M4.5 19.5h15"/>
+      </svg>
+    </button>
   </div>
 </header>
 
 <div class="wrap">
-
-  <button class="instalar" id="btnInstalar">📲 Instalar en el celular</button>
 
   <div class="aviso oculto" id="avisoLocal">
     <b>Modo de prueba.</b> Falta conectar el Apps Script: lo que hagas se guarda solo en este dispositivo.
@@ -837,16 +850,16 @@ let promptInstalar = null;
 window.addEventListener("beforeinstallprompt", e=>{
   e.preventDefault();
   promptInstalar = e;
-  $("btnInstalar").style.display = "block";
+  $("btnInstalar").classList.add("visible");
 });
 $("btnInstalar").onclick = async ()=>{
   if(!promptInstalar) return;
   promptInstalar.prompt();
   await promptInstalar.userChoice;
   promptInstalar = null;
-  $("btnInstalar").style.display = "none";
+  $("btnInstalar").classList.remove("visible");
 };
-window.addEventListener("appinstalled", ()=>{ $("btnInstalar").style.display = "none"; });
+window.addEventListener("appinstalled", ()=>{ $("btnInstalar").classList.remove("visible"); });
 
 if("serviceWorker" in navigator){
   window.addEventListener("load", ()=>{
