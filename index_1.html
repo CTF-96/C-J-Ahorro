@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ahorro</title>
+<meta name="theme-color" content="#16202E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --tinta:#16202E; --tinta-60:#5B6B80; --tinta-30:#9BA9BA;
+  --papel:#EDF0F5; --papel-2:#FFFFFF; --linea:#D7DEE8;
+  --oro:#C98A16; --rojo:#D8456C;
+  --radio:16px; --sombra:0 1px 2px rgba(22,32,46,.06), 0 8px 24px rgba(22,32,46,.07);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--papel);color:var(--tinta);
+  font-family:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  font-size:15px;line-height:1.5;padding:0 0 60px;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:900px;margin:0 auto;padding:0 14px}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.oculto{display:none!important}
+
+/* ─── Cabecera ─── */
+header{background:var(--tinta);color:#fff;padding:20px 0;border-bottom:4px solid var(--oro);margin-bottom:20px}
+.head-in{display:flex;align-items:center;gap:14px}
+h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(23px,5.6vw,34px);line-height:1;margin:0;letter-spacing:-.02em}
+.sub{color:#A8B6C8;font-size:12.5px;margin-top:6px}
+.volver{border:0;background:rgba(255,255,255,.12);color:#fff;border-radius:10px;width:40px;height:40px;font-size:20px;cursor:pointer;flex:none;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.volver:hover{background:rgba(255,255,255,.22)}
+.estado-sync{margin-left:auto;font-size:11.5px;color:#8FA0B4;display:flex;align-items:center;gap:6px;flex:none}
+.punto{width:8px;height:8px;border-radius:50%;background:#4A5A70;flex:none}
+.punto.ok{background:#43C07C} .punto.err{background:#E4718F} .punto.load{background:var(--oro);animation:lat 1s infinite}
+@keyframes lat{50%{opacity:.25}}
+
+/* ─── Totales ─── */
+.fila-totales{display:flex;justify-content:flex-end;margin-bottom:12px}
+.link-totales{
+  background:none;border:0;padding:4px 2px;cursor:pointer;
+  font:600 14px 'DM Sans',sans-serif;color:var(--tinta-60);
+  text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1.5px;
+  display:flex;align-items:center;gap:7px;transition:color .15s;
+}
+.link-totales:hover{color:var(--tinta)}
+.link-totales:focus-visible{outline:3px solid var(--oro);outline-offset:3px;border-radius:4px}
+.link-totales .caret{font-size:11px;transition:transform .2s;display:inline-block}
+.link-totales.abierto .caret{transform:rotate(180deg)}
+
+.reparto{background:var(--papel-2);border-radius:var(--radio);box-shadow:var(--sombra);padding:22px;margin-bottom:16px}
+.reparto-top{display:flex;gap:26px;align-items:center;flex-wrap:wrap}
+.dona{flex:none;width:150px;height:150px;position:relative}
+.dona svg{transform:rotate(-90deg);display:block}
+.dona .centro{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none}
+.dona .centro .c-num{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:20px;line-height:1.05}
+.dona .centro .c-lbl{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tinta-60);margin-top:3px}
+.leyenda{flex:1;min-width:200px}
+.leyenda h2{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;margin:0 0 4px;font-weight:600}
+.leyenda .nota{font-size:12.5px;color:var(--tinta-60);margin:0 0 14px}
+.leyenda ul{list-style:none;margin:0;padding:0}
+.leyenda li{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--linea);font-size:14px}
+.leyenda li:last-child{border-bottom:0}
+.pastilla{width:11px;height:11px;border-radius:3px;flex:none}
+.leyenda li .nom{flex:1;display:flex;flex-direction:column;line-height:1.25}
+.leyenda li .det{font-size:11.5px;color:var(--tinta-30)}
+.leyenda li .val{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;font-weight:600}
+.leyenda li .pc{color:var(--tinta-60);font-size:12.5px;min-width:40px;text-align:right}
+.reparto-pie{margin-top:18px;padding-top:16px;border-top:1px solid var(--linea);display:flex;gap:10px;flex-wrap:wrap}
+.btn-sec{
+  border:1.5px solid var(--linea);background:transparent;border-radius:10px;padding:10px 16px;
+  font:600 13.5px 'DM Sans',sans-serif;color:var(--tinta);cursor:pointer;transition:all .15s;
+}
+.btn-sec:hover{border-color:var(--tinta-30);background:#F6F9FC}
+.btn-sec.peligro{color:var(--rojo);border-color:#F0C4D0}
+.btn-sec.peligro:hover{background:#FDF2F5;border-color:var(--rojo)}
+
+/* ─── Cajas ─── */
+.titulo-sec{font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:600;margin:0 0 10px;color:var(--tinta-60)}
+.cajas{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:12px;margin-bottom:16px}
+.caja{background:var(--papel-2);border:0;border-radius:var(--radio);box-shadow:var(--sombra);padding:0;text-align:left;cursor:pointer;overflow:hidden;transition:transform .14s,box-shadow .14s;font-family:inherit;display:block;width:100%}
+.caja:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(22,32,46,.14)}
+.caja:focus-visible{outline:3px solid var(--oro);outline-offset:2px}
+.caja .franja{height:6px}
+.caja .cuerpo{padding:24px 20px 26px}
+.caja .nom{font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:21px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.caja .nom .flecha{color:var(--tinta-30);font-size:20px;transition:transform .14s}
+.caja:hover .nom .flecha{transform:translateX(3px)}
+.caja .pie{font-size:12.5px;color:var(--tinta-60);margin-top:8px}
+.caja-nueva{border:2px dashed var(--linea);background:transparent;box-shadow:none;display:flex;align-items:center;justify-content:center;min-height:130px;color:var(--tinta-30);font-size:14px;font-weight:500;cursor:default;padding:20px;text-align:center}
+.caja-nueva:hover{transform:none;box-shadow:none}
+
+/* ─── Casillas ─── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:7px}
+.celda{position:relative;background:var(--papel-2);border:1.5px solid var(--linea);border-radius:11px;padding:14px 4px 12px;text-align:center;cursor:pointer;transition:transform .12s,box-shadow .12s,background .2s,border-color .2s;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
+.celda:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(22,32,46,.12);border-color:var(--tinta-30)}
+.celda:focus-visible{outline:3px solid var(--oro);outline-offset:2px}
+.celda .n{position:absolute;top:4px;left:6px;font-size:9px;color:var(--tinta-30)}
+.celda .m{font-size:17px;font-weight:600;line-height:1.1;display:block;color:var(--tinta)}
+.celda.on{border-width:2px}
+.celda.on .m{color:#fff}
+.celda.on .n{color:rgba(255,255,255,.65)}
+.celda.on::after{content:"✓";position:absolute;top:3px;right:6px;font-size:11px;color:rgba(255,255,255,.85);font-family:'DM Sans',sans-serif}
+.celda.sello{animation:sello .35s cubic-bezier(.2,1.4,.4,1)}
+@keyframes sello{0%{transform:scale(.86)}60%{transform:scale(1.06)}100%{transform:scale(1)}}
+.pie-caja{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:24px 0 0;color:var(--tinta-60);font-size:12.5px}
+.link-reinicio{
+  background:none;border:0;padding:4px 2px;cursor:pointer;
+  font:600 13.5px 'DM Sans',sans-serif;color:var(--tinta-60);
+  text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1.5px;transition:color .15s;
+}
+.link-reinicio:hover{color:var(--rojo)}
+.link-reinicio:focus-visible{outline:3px solid var(--oro);outline-offset:3px;border-radius:4px}
+
+/* ─── Modal ─── */
+.velo{position:fixed;inset:0;background:rgba(22,32,46,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}
+.velo.on{display:flex}
+.modal{background:#fff;border-radius:18px;padding:24px;max-width:360px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,.3);max-height:88vh;overflow:auto}
+.modal h3{font-family:'Bricolage Grotesque',sans-serif;margin:0 0 6px;font-size:19px}
+.modal .monto-g{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:36px;display:block;margin:6px 0 12px}
+.modal p{margin:0 0 16px;font-size:14.5px;color:var(--tinta-60)}
+.modal p.alerta{background:#FFF6E0;border:1px solid #E8CF8E;color:#6B4E0B;border-radius:10px;padding:11px 13px;font-size:13.5px}
+.modal label{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--tinta-60);margin-bottom:7px;font-weight:500}
+.modal select,.modal input{
+  width:100%;padding:12px 13px;border:1.5px solid var(--linea);border-radius:10px;
+  font:600 16px 'IBM Plex Mono',monospace;color:var(--tinta);background:#fff;margin-bottom:14px;
+}
+.modal select{font-family:'DM Sans',sans-serif}
+.modal input:focus,.modal select:focus{outline:0;border-color:var(--tinta)}
+.billetes{display:flex;gap:7px;flex-wrap:wrap;margin:-6px 0 14px}
+.billetes button{
+  border:1.5px solid var(--linea);background:#fff;border-radius:8px;padding:7px 11px;
+  font:600 13px 'IBM Plex Mono',monospace;cursor:pointer;color:var(--tinta-60);transition:all .15s;
+}
+.billetes button:hover{border-color:var(--tinta);color:var(--tinta)}
+.modal-btns{display:flex;gap:9px}
+.btn{flex:1;border:0;border-radius:10px;padding:12px;font:700 14.5px 'DM Sans',sans-serif;cursor:pointer;transition:opacity .15s}
+.btn:hover{opacity:.87}
+.btn-ok{background:var(--tinta);color:#fff}
+.btn-no{background:#EAEFF5;color:var(--tinta)}
+.btn-peligro{background:var(--rojo);color:#fff}
+
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,140%);background:var(--tinta);color:#fff;padding:12px 20px;border-radius:999px;font-size:14px;font-weight:500;box-shadow:0 10px 30px rgba(0,0,0,.25);z-index:60;transition:transform .3s cubic-bezier(.2,.9,.3,1);max-width:90vw;text-align:center}
+.toast.on{transform:translate(-50%,0)}
+.aviso{background:#FFF6E0;border:1px solid #E8CF8E;border-radius:var(--radio);padding:13px 16px;margin-bottom:16px;font-size:13.5px;color:#6B4E0B}
+
+@media (max-width:560px){
+  .grid{grid-template-columns:repeat(auto-fill,minmax(66px,1fr));gap:6px}
+  .celda .m{font-size:15px}
+  .reparto{padding:18px}
+  .reparto-top{gap:18px;justify-content:center}
+  .dona{width:132px;height:132px}
+  .reparto-pie .btn-sec{flex:1}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap head-in">
+    <button class="volver oculto" id="btnVolver" aria-label="Volver al panel">←</button>
+    <div>
+      <h1 id="titulo">Ahorro</h1>
+      <div class="sub" id="subtitulo">Nuestras cajas</div>
+    </div>
+    <div class="estado-sync"><span class="punto" id="punto"></span><span id="estadoTxt">—</span></div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="aviso oculto" id="avisoLocal">
+    <b>Modo de prueba.</b> Falta conectar el Apps Script: lo que hagas se guarda solo en este dispositivo. Pega la URL en <span class="mono">API_URL</span> dentro del archivo.
+  </div>
+
+  <!-- ═══ PANEL ═══ -->
+  <section id="vistaPanel">
+    <div class="fila-totales">
+      <button class="link-totales" id="btnTotales" aria-expanded="false" aria-controls="reparto">
+        Totales <span class="caret">▼</span>
+      </button>
+    </div>
+
+    <div class="reparto oculto" id="reparto">
+      <div class="reparto-top">
+        <div class="dona">
+          <svg width="150" height="150" viewBox="0 0 150 150" id="dona"></svg>
+          <div class="centro">
+            <div class="c-num mono" id="donaTotal">S/ 0</div>
+            <div class="c-lbl">Guardado</div>
+          </div>
+        </div>
+        <div class="leyenda">
+          <h2>Reparto del ahorro</h2>
+          <p class="nota" id="notaReparto">De todo lo guardado, cuánto le toca a cada caja.</p>
+          <ul id="leyenda"></ul>
+        </div>
+      </div>
+      <div class="reparto-pie">
+        <button class="btn-sec peligro" id="btnRetiro">Registrar retiro</button>
+      </div>
+    </div>
+
+    <p class="titulo-sec">Cajas</p>
+    <div class="cajas" id="cajas"></div>
+  </section>
+
+  <!-- ═══ CASILLAS ═══ -->
+  <section id="vistaCaja" class="oculto">
+    <div class="grid" id="grid"></div>
+    <div class="pie-caja">
+      <span>Marca la casilla solo cuando el depósito ya esté hecho.</span>
+      <button class="link-reinicio" id="btnReinicio">Reiniciar ronda</button>
+    </div>
+  </section>
+
+</div>
+
+<div class="velo" id="velo"><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   ①  CONFIGURACIÓN
+   ══════════════════════════════════════════════════════════════ */
+const CONFIG = {
+  API_URL: "https://script.google.com/macros/s/AKfycbwKEuXlY0VsLKytynH1yXvmLqykbPgPVhWTfkRSi2rrf5yAX9zd_0nvtKUV-sHTs5YX/exec",
+  PIN: "amor2026",      // idéntico al PIN del Apps Script
+  REFRESCO_SEG: 25
+};
+
+/* ══════════════════════════════════════════════════════════════
+   ②  CAJAS — el mismo bloque tiene que existir en el Apps Script
+   ══════════════════════════════════════════════════════════════ */
+const CAJAS = [
+  {
+    id: "ahorro-cj",
+    nombre: "Ahorro C&J",
+    color: "#0E7C7B",
+    montos: [
+      120,40,90,40,90,90,130,70,130,100,120,150,50,130,150,110,140,120,70,120,
+      150,70,100,140,150,110,30,100,140,80,60,50,150,60,60,70,140,150,50,100,
+      100,140,140,150,150,150,150,150,50,60,120,80,70,40,50,110,150,90,60,60,
+      90,140,40,140,90,40,140,80,110,60,150,60,150,150,70,90,40,30,130,130,
+      130,150,90,70,70,40,30,70,150,120,130,130,80,90,90,110,140,140,150,150,
+      150,100,120,140,60,110,80,80,40,60,140,70,140,130,60,90,80,150,70,150,
+      60,80,70,150,90,60,150,140,60,110,150,150,40,40,50,130,110,50,60,50,
+      50,50,40,130,150,150,130,130,110,50,150,100,90,90,60,50,150,60,70,150,
+      150,140,150,100,130,70,120,90,130,40,110,110,70,150,60,150,130,150,100,30,
+      50,150,40,150,80,150,50,120,100,130,150,40,30,140,40,150,120,60,30,110
+    ]
+  }
+  /* Para agregar otra caja, copia este bloque:
+  ,{ id:"emergencias", nombre:"Emergencias", color:"#C98A16", montos:[ ... ] }
+  */
+];
+
+/* ══════════════════════════════════════════════════════════════
+   ③  ESTADO
+       marcas  = { "ahorro-cj": { "12": "fechaISO" } }   ronda actual
+       saldos  = { "ahorro-cj": 4300 }                   acumulado aparte
+       Guardado de una caja = saldo + suma de casillas marcadas
+   ══════════════════════════════════════════════════════════════ */
+let marcas = {}, saldos = {};
+let cajaActual = null, selloEn = null, totalesAbierto = false;
+const hayBackend = CONFIG.API_URL.trim().length > 0;
+
+const $ = id => document.getElementById(id);
+const sol = n => "S/ " + Math.round(n).toLocaleString("es-PE");
+const caja = id => CAJAS.find(c => c.id === id);
+const meta = c => c.montos.reduce((a,b)=>a+b,0);
+const enCasillas = c => Object.keys(marcas[c.id] || {}).reduce((s,k)=> s + (c.montos[k]||0), 0);
+const saldoDe = c => saldos[c.id] || 0;
+const guardado = c => saldoDe(c) + enCasillas(c);
+
+function guardaLocal(){
+  try{ localStorage.setItem("cajas_ahorro", JSON.stringify({marcas, saldos})); }
+  catch(e){ window.__d = {marcas, saldos}; }
+}
+function leeLocal(){
+  try{ const s = localStorage.getItem("cajas_ahorro"); if(s) return JSON.parse(s); }
+  catch(e){ if(window.__d) return window.__d; }
+  return {marcas:{}, saldos:{}};
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ④  BACKEND
+   ══════════════════════════════════════════════════════════════ */
+function marcaSync(clase, texto){
+  $("punto").className = "punto " + clase;
+  $("estadoTxt").textContent = texto;
+}
+
+async function llamaAPI(params){
+  const url = CONFIG.API_URL + "?" + new URLSearchParams({pin: CONFIG.PIN, ...params}).toString();
+  const r = await fetch(url, {method:"GET", redirect:"follow"});
+  if(!r.ok) throw new Error("HTTP " + r.status);
+  const j = await r.json();
+  if(j.error) throw new Error(j.error);
+  return j;
+}
+
+function aplica(j){
+  marcas = j.marcas || {};
+  saldos = j.saldos || {};
+  guardaLocal();
+}
+
+async function traerEstado(silencioso){
+  if(!hayBackend){ const d = leeLocal(); marcas = d.marcas||{}; saldos = d.saldos||{}; pinta(); return; }
+  if(!silencioso) marcaSync("load","Sincronizando");
+  try{
+    aplica(await llamaAPI({action:"estado"}));
+    marcaSync("ok","Al día");
+  }catch(e){
+    marcaSync("err","Sin conexión");
+    const d = leeLocal(); marcas = d.marcas||{}; saldos = d.saldos||{};
+  }
+  pinta();
+}
+
+async function accion(params, msgError){
+  if(!hayBackend) return true;
+  marcaSync("load","Guardando");
+  try{
+    aplica(await llamaAPI(params));
+    marcaSync("ok","Al día");
+    return true;
+  }catch(e){
+    marcaSync("err","No se guardó");
+    toast(msgError || ("No se guardó: " + e.message));
+    return false;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ⑤  LÓGICA DE RETIRO — la misma que corre en el Apps Script.
+       Regla: se desmarca la casilla más chica que alcance a cubrir
+       el retiro; lo que sobra queda como saldo de la caja.
+   ══════════════════════════════════════════════════════════════ */
+function planRetiro(c, monto){
+  const disponible = guardado(c);
+  if(monto > disponible) return {error:"Solo hay " + sol(disponible) + " en esta caja."};
+
+  let falta = monto;
+  let usarSaldo = Math.min(saldoDe(c), falta);
+  falta -= usarSaldo;
+
+  const marcadas = Object.keys(marcas[c.id] || {})
+    .map(k => ({i:+k, m:c.montos[k]}))
+    .sort((a,b)=> a.m - b.m);
+
+  const quitar = [];
+  if(falta > 0){
+    const suficiente = marcadas.find(x => x.m >= falta);
+    if(suficiente){
+      quitar.push(suficiente.i);
+      falta -= suficiente.m;              // queda en negativo = sobrante
+    } else {
+      for(let k = marcadas.length - 1; k >= 0 && falta > 0; k--){
+        quitar.push(marcadas[k].i);
+        falta -= marcadas[k].m;
+      }
+    }
+  }
+  return {usarSaldo, quitar, sobrante: falta < 0 ? -falta : 0};
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ⑥  PANEL
+   ══════════════════════════════════════════════════════════════ */
+function pintaPanel(){
+  const datos = CAJAS.map(c => ({c, g:guardado(c)}));
+  const total = datos.reduce((s,d)=>s+d.g, 0);
+
+  $("donaTotal").textContent = sol(total);
+
+  const svg = $("dona"), R = 60, CX = 75, CY = 75, GROSOR = 20, circ = 2*Math.PI*R;
+  if(total === 0){
+    svg.innerHTML = '<circle cx="75" cy="75" r="60" fill="none" stroke="#E5EAF1" stroke-width="20"/>';
+  } else {
+    let acum = 0, s = "";
+    datos.forEach(d=>{
+      if(d.g <= 0) return;
+      const frac = d.g / total;
+      s += '<circle cx="'+CX+'" cy="'+CY+'" r="'+R+'" fill="none" stroke="'+d.c.color+'"' +
+           ' stroke-width="'+GROSOR+'" stroke-dasharray="'+(frac*circ)+' '+circ+'"' +
+           ' stroke-dashoffset="'+(-acum*circ)+'"><title>'+d.c.nombre+': '+sol(d.g)+'</title></circle>';
+      acum += frac;
+    });
+    svg.innerHTML = s;
+  }
+
+  $("notaReparto").textContent = total === 0
+    ? "Cuando marquen la primera casilla, aquí se ve el reparto."
+    : "De todo lo guardado, cuánto le toca a cada caja.";
+
+  $("leyenda").innerHTML = datos.map(d=>{
+    const pc = total ? (d.g/total*100).toFixed(0) + "%" : "—";
+    const nMarc = Object.keys(marcas[d.c.id] || {}).length;
+    return '<li><span class="pastilla" style="background:'+d.c.color+'"></span>' +
+           '<span class="nom">'+d.c.nombre+
+             '<span class="det">'+nMarc+' de '+d.c.montos.length+' casillas · ronda de '+sol(meta(d.c))+'</span>' +
+           '</span>' +
+           '<span class="val">'+sol(d.g)+'</span>' +
+           '<span class="pc">'+pc+'</span></li>';
+  }).join("");
+
+  const cont = $("cajas");
+  cont.innerHTML = "";
+  datos.forEach(d=>{
+    const b = document.createElement("button");
+    b.className = "caja"; b.type = "button";
+    b.innerHTML =
+      '<div class="franja" style="background:'+d.c.color+'"></div>' +
+      '<div class="cuerpo">' +
+        '<div class="nom">'+d.c.nombre+'<span class="flecha">›</span></div>' +
+        '<div class="pie">'+d.c.montos.length+' casillas</div>' +
+      '</div>';
+    b.onclick = ()=> location.hash = "#/" + d.c.id;
+    cont.appendChild(b);
+  });
+  const nueva = document.createElement("div");
+  nueva.className = "caja caja-nueva";
+  nueva.textContent = "Más adelante: Emergencias, Viajes…";
+  cont.appendChild(nueva);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ⑦  CASILLAS
+   ══════════════════════════════════════════════════════════════ */
+function pintaCasillas(){
+  const c = caja(cajaActual);
+  if(!c) return;
+  const m = marcas[c.id] || {};
+  const g = $("grid");
+  g.innerHTML = "";
+  c.montos.forEach((monto,i)=>{
+    const on = !!m[i];
+    const d = document.createElement("button");
+    d.type = "button";
+    d.className = "celda" + (on ? " on" : "") + (selloEn === i ? " sello" : "");
+    if(on){ d.style.background = c.color; d.style.borderColor = c.color; }
+    d.setAttribute("aria-label", "Casilla " + (i+1) + ", " + sol(monto) + (on ? ", marcada" : ", pendiente"));
+    d.innerHTML = '<span class="n">'+(i+1)+'</span><span class="m">'+monto+'</span>';
+    d.onclick = ()=> modalCasilla(i);
+    g.appendChild(d);
+  });
+  selloEn = null;
+}
+
+function pinta(){ if(cajaActual) pintaCasillas(); else pintaPanel(); }
+
+/* ══════════════════════════════════════════════════════════════
+   ⑧  NAVEGACIÓN
+   ══════════════════════════════════════════════════════════════ */
+function ruta(){
+  const h = location.hash.replace(/^#\/?/, "");
+  const c = caja(h);
+  if(c){
+    cajaActual = c.id;
+    $("titulo").textContent = c.nombre;
+    $("subtitulo").textContent = c.montos.length + " casillas · solo billetes, sin monedas";
+    $("btnVolver").classList.remove("oculto");
+    $("vistaPanel").classList.add("oculto");
+    $("vistaCaja").classList.remove("oculto");
+  } else {
+    cajaActual = null;
+    $("titulo").textContent = "Ahorro";
+    $("subtitulo").textContent = "Nuestras cajas";
+    $("btnVolver").classList.add("oculto");
+    $("vistaPanel").classList.remove("oculto");
+    $("vistaCaja").classList.add("oculto");
+  }
+  window.scrollTo(0,0);
+  pinta();
+}
+window.addEventListener("hashchange", ruta);
+$("btnVolver").onclick = ()=> location.hash = "";
+
+$("btnTotales").onclick = ()=>{
+  totalesAbierto = !totalesAbierto;
+  $("reparto").classList.toggle("oculto", !totalesAbierto);
+  $("btnTotales").classList.toggle("abierto", totalesAbierto);
+  $("btnTotales").setAttribute("aria-expanded", totalesAbierto);
+  if(totalesAbierto) pintaPanel();
+};
+
+/* ══════════════════════════════════════════════════════════════
+   ⑨  MODALES
+   ══════════════════════════════════════════════════════════════ */
+function toast(t){
+  const el = $("toast");
+  el.textContent = t; el.classList.add("on");
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>el.classList.remove("on"), 3400);
+}
+function abre(html){ $("modal").innerHTML = html; $("velo").classList.add("on"); }
+function cierra(){ $("velo").classList.remove("on"); }
+$("velo").onclick = e => { if(e.target === $("velo")) cierra(); };
+document.addEventListener("keydown", e => { if(e.key === "Escape") cierra(); });
+
+/* ── Marcar / desmarcar casilla ── */
+function modalCasilla(i){
+  const c = caja(cajaActual);
+  const on = !!(marcas[c.id] || {})[i];
+
+  abre(
+    '<h3>Casilla ' + (i+1) + '</h3>' +
+    '<span class="monto-g mono" style="color:' + (on ? c.color : 'var(--tinta)') + '">' + sol(c.montos[i]) + '</span>' +
+    '<p>' + (on ? "Esta casilla ya está marcada. Quítala solo si fue un error."
+                : "¿Ya depositaste este monto en la cuenta?") + '</p>' +
+    '<div class="modal-btns">' +
+      '<button class="btn ' + (on ? 'btn-peligro' : 'btn-ok') + '" id="mSi">' +
+        (on ? "Quitar marca" : "Sí, ya deposité") + '</button>' +
+      '<button class="btn btn-no" id="mNo">' + (on ? "Cerrar" : "Todavía no") + '</button>' +
+    '</div>'
+  );
+
+  $("mNo").onclick = cierra;
+  $("mSi").onclick = async ()=>{
+    cierra();
+    const prev = JSON.stringify({marcas, saldos});
+    if(on){ delete marcas[c.id][i]; }
+    else { if(!marcas[c.id]) marcas[c.id] = {}; marcas[c.id][i] = new Date().toISOString(); selloEn = i; }
+    pinta();
+    const ok = await accion({action: on ? "desmarcar" : "marcar", caja:c.id, i:i});
+    if(!ok){ const d = JSON.parse(prev); marcas = d.marcas; saldos = d.saldos; }
+    else { toast(on ? "Marca quitada." : "Casilla marcada."); }
+    pinta();
+  };
+}
+
+/* ── Reiniciar ronda ── */
+$("btnReinicio").onclick = ()=>{
+  const c = caja(cajaActual);
+  const enJuego = enCasillas(c);
+  const nMarc = Object.keys(marcas[c.id] || {}).length;
+
+  if(nMarc === 0){ toast("No hay casillas marcadas en esta ronda."); return; }
+
+  abre(
+    '<h3>Reiniciar ronda</h3>' +
+    '<span class="monto-g mono" style="color:' + c.color + '">' + sol(enJuego) + '</span>' +
+    '<p>Se van a borrar las <b>' + nMarc + ' marcas</b> de esta ronda y esos ' + sol(enJuego) +
+      ' pasan al acumulado de ' + c.nombre + '. Total de la caja después: <b>' + sol(guardado(c)) + '</b> — no se pierde nada.</p>' +
+    '<p class="alerta">El tablero queda en blanco para empezar de nuevo. Esto no se puede deshacer.</p>' +
+    '<div class="modal-btns">' +
+      '<button class="btn btn-peligro" id="rSi">Sí, reiniciar</button>' +
+      '<button class="btn btn-no" id="rNo">Cancelar</button>' +
+    '</div>'
+  );
+
+  $("rNo").onclick = cierra;
+  $("rSi").onclick = async ()=>{
+    cierra();
+    const prev = JSON.stringify({marcas, saldos});
+    saldos[c.id] = saldoDe(c) + enJuego;
+    marcas[c.id] = {};
+    pinta();
+    const ok = await accion({action:"reiniciar", caja:c.id});
+    if(!ok){ const d = JSON.parse(prev); marcas = d.marcas; saldos = d.saldos; }
+    else { toast("Ronda reiniciada. " + sol(enJuego) + " quedan en el acumulado."); }
+    pinta();
+  };
+};
+
+/* ── Registrar retiro ── */
+$("btnRetiro").onclick = ()=>{
+  const opciones = CAJAS.map(c =>
+    '<option value="'+c.id+'">'+c.nombre+' — '+sol(guardado(c))+' disponible</option>').join("");
+
+  abre(
+    '<h3>Registrar retiro</h3>' +
+    '<p>Anota aquí la plata que sacaron de la cuenta. Solo billetes: montos en múltiplos de 10.</p>' +
+    '<label for="rCaja">De qué caja</label>' +
+    '<select id="rCaja">' + opciones + '</select>' +
+    '<label for="rMonto">Cuánto retiraron</label>' +
+    '<input id="rMonto" type="number" inputmode="numeric" step="10" min="10" placeholder="0">' +
+    '<div class="billetes">' +
+      [10,20,50,100,200].map(v=>'<button type="button" data-v="'+v+'">+'+v+'</button>').join("") +
+      '<button type="button" data-v="0">Borrar</button>' +
+    '</div>' +
+    '<p id="rPreview" style="font-size:13.5px;margin-bottom:14px">&nbsp;</p>' +
+    '<div class="modal-btns">' +
+      '<button class="btn btn-peligro" id="wSi">Registrar retiro</button>' +
+      '<button class="btn btn-no" id="wNo">Cancelar</button>' +
+    '</div>'
+  );
+
+  const inp = $("rMonto"), sel = $("rCaja"), prev = $("rPreview");
+
+  function refresca(){
+    const c = caja(sel.value);
+    const monto = parseInt(inp.value, 10);
+    if(!monto || monto <= 0){ prev.innerHTML = "&nbsp;"; return; }
+    if(monto % 10 !== 0){ prev.innerHTML = '<span style="color:var(--rojo)">Solo billetes: el monto debe terminar en 0.</span>'; return; }
+    const p = planRetiro(c, monto);
+    if(p.error){ prev.innerHTML = '<span style="color:var(--rojo)">'+p.error+'</span>'; return; }
+    const partes = [];
+    if(p.quitar.length) partes.push("se desmarcan <b>" + p.quitar.length + (p.quitar.length===1?" casilla":" casillas") + "</b>");
+    if(p.sobrante) partes.push("quedan " + sol(p.sobrante) + " de vuelta en el acumulado");
+    prev.innerHTML = "La caja baja a <b>" + sol(guardado(c) - monto) + "</b>" +
+                     (partes.length ? " · " + partes.join(" y ") : "") + ".";
+  }
+
+  inp.oninput = refresca;
+  sel.onchange = refresca;
+  $("modal").querySelectorAll(".billetes button").forEach(b=>{
+    b.onclick = ()=>{
+      const v = +b.dataset.v;
+      inp.value = v === 0 ? "" : (parseInt(inp.value,10) || 0) + v;
+      refresca();
+    };
+  });
+
+  $("wNo").onclick = cierra;
+  $("wSi").onclick = async ()=>{
+    const c = caja(sel.value);
+    const monto = parseInt(inp.value, 10);
+    if(!monto || monto <= 0){ toast("Escribe cuánto retiraron."); return; }
+    if(monto % 10 !== 0){ toast("Solo billetes: el monto debe terminar en 0."); return; }
+    const p = planRetiro(c, monto);
+    if(p.error){ toast(p.error); return; }
+
+    cierra();
+    const antes = JSON.stringify({marcas, saldos});
+    p.quitar.forEach(i => { delete marcas[c.id][i]; });
+    saldos[c.id] = saldoDe(c) - p.usarSaldo + p.sobrante;
+    pinta();
+
+    const ok = await accion({action:"retirar", caja:c.id, monto:monto});
+    if(!ok){ const d = JSON.parse(antes); marcas = d.marcas; saldos = d.saldos; }
+    else {
+      toast("Retiro de " + sol(monto) + " registrado" +
+            (p.quitar.length ? " · " + p.quitar.length + (p.quitar.length===1?" casilla desmarcada":" casillas desmarcadas") : "") + ".");
+    }
+    pinta();
+  };
+};
+
+/* ══════════════════════════════════════════════════════════════
+   ⑩  ARRANQUE
+   ══════════════════════════════════════════════════════════════ */
+(function init(){
+  if(!hayBackend){ $("avisoLocal").classList.remove("oculto"); marcaSync("err","Modo local"); }
+  const d = leeLocal(); marcas = d.marcas || {}; saldos = d.saldos || {};
+  ruta();
+  traerEstado(false);
+  if(hayBackend){
+    setInterval(()=>{ if(!document.hidden && !$("velo").classList.contains("on")) traerEstado(true); }, CONFIG.REFRESCO_SEG * 1000);
+    document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) traerEstado(true); });
+  }
+})();
+</script>
+</body>
+</html>
